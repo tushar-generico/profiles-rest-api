@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'profiles_api',
-
 ]
 
 MIDDLEWARE = [
@@ -124,3 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
