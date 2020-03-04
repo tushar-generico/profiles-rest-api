@@ -465,7 +465,7 @@
         "description": "This endpoint will reflect all sales done by Workcell.\n\n*For all practical purposes, all sale done by Workcell is purchased by Zippin Retail stores as it is the only customer\n\nQuestions -\n1. Customer code and Customer name should be taken from store_id"
       },
       "post": {
-        "summary": "",
+        "summary": "Acknowledge Sales Invoices updated",
         "operationId": "post-workcell-sales-invoices",
         "responses": {
           "200": {
