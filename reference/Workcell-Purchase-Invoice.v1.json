@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Workcell",
+    "version": "1.0",
+    "description": "This folder contains API for Workcell-SAP Integration",
+    "contact": {
+      "name": "Pritam Jana"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/workcell/purchase-invoices": {
+      "get": {
+        "summary": "Workcell - Get Purchase Invoices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "purchase_invoices": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "invoice_number": {
+                        "type": "string"
+                      },
+                      "distributor_id": {
+                        "type": "string"
+                      },
+                      "distributor_name": {
+                        "type": "string"
+                      },
+                      "posting_date": {
+                        "type": "string"
+                      },
+                      "payment_due_date": {
+                        "type": "string"
+                      },
+                      "payment_credit_period": {
+                        "type": "string"
+                      },
+                      "stock_ledger": {
+                        "type": "string"
+                      },
+                      "store_id": {
+                        "type": "string"
+                      },
+                      "workcell_dc_id": {
+                        "type": "string"
+                      },
+                      "shipping_state": {
+                        "type": "string"
+                      },
+                      "final_discount_amount": {
+                        "type": "string"
+                      },
+                      "drug_details": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "drug_id": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "unit_price": {
+                              "type": "integer"
+                            },
+                            "item_discount_amount": {
+                              "type": [
+                                "string",
+                                "integer"
+                              ]
+                            },
+                            "free_quantity": {
+                              "type": "number"
+                            },
+                            "tax_rate": {
+                              "type": "integer"
+                            },
+                            "hsn_code": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-workcell-purchase-invoices",
+        "description": "This endpoint would provide hourly* update of Workcell purchases done to SAP.\n\n* params can change",
+        "parameters": [],
+        "tags": [
+          "Purchase Invoice"
+        ],
+        "security": [
+          {
+            "API Key - 1": []
+          },
+          {
+            "API Key - 1": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Workcell - Acknowledge Purchase Invoices updated",
+        "responses": {},
+        "operationId": "post-workcell-purchase-invoices",
+        "description": "This endpoint would update Purchase Invoices for Workcell acknowledged by SAP",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "purchase_invoices_ack": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "This would contain invoice numbers of acknowledged purchase invocies"
+          },
+          {
+            "type": "string",
+            "in": "header",
+            "name": "Auth ",
+            "description": "",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Purchase Invoice"
+        ]
+      }
+    },
+    "/workcell/purchase-returns": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "purchase_returns": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "purchase_return_id": {
+                        "type": "string",
+                        "description": "This should be linked to debit note of Workcell."
+                      },
+                      "distributor_id": {
+                        "type": "string"
+                      },
+                      "distributor_name": {
+                        "type": "string",
+                        "description": "Should this be provided or would be linked via SAP?"
+                      },
+                      "posting_date": {
+                        "type": "string"
+                      },
+                      "payment_due_date": {
+                        "type": "string"
+                      },
+                      "payment_credit_period": {
+                        "type": "string"
+                      },
+                      "stock_ledger": {
+                        "type": "string"
+                      },
+                      "store_id": {
+                        "type": "string"
+                      },
+                      "workcell_dc_id": {
+                        "type": "string"
+                      },
+                      "shipping_state": {
+                        "type": "string"
+                      },
+                      "final_discount_amount": {
+                        "type": "string"
+                      },
+                      "drug_details": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "drug_id": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "unit_price": {
+                              "type": "integer"
+                            },
+                            "item_discount_amount": {
+                              "type": [
+                                "string",
+                                "integer"
+                              ]
+                            },
+                            "free_quantity": {
+                              "type": "number"
+                            },
+                            "tax_rate": {
+                              "type": "integer"
+                            },
+                            "hsn_code": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-workcell-purchase-returns",
+        "description": "This endpoint would provide hourly* update of Workcell Distributor Purchase Returns to SAP.\n\n* params can change"
+      }
+    }
+  },
+  "definitions": {},
+  "securityDefinitions": {
+    "API Key - 1": {
+      "name": "Authorization",
+      "type": "apiKey",
+      "in": "header"
+    }
+  }
+}
