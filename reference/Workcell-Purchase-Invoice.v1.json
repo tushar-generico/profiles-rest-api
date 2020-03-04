@@ -21,7 +21,7 @@
   "paths": {
     "/workcell/purchase-invoices": {
       "get": {
-        "summary": "Workcell - Get Purchase Invoices",
+        "summary": "Get Purchase Invoices",
         "responses": {
           "200": {
             "description": "OK",
@@ -50,7 +50,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "invoice_number": {
+                      "purchase_invoice_number": {
                         "type": "string"
                       },
                       "distributor_id": {
@@ -130,7 +130,7 @@
         ]
       },
       "post": {
-        "summary": "Workcell - Acknowledge Purchase Invoices updated",
+        "summary": "Acknowledge Purchase Invoices updated",
         "responses": {
           "200": {
             "description": "OK",
@@ -190,7 +190,7 @@
     },
     "/workcell/purchase-returns": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get Purchase Returns",
         "tags": [
           "Purchase Returns"
         ],
@@ -205,7 +205,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "purchase_return_id": {
+                      "purchase_return_number": {
                         "type": "string",
                         "description": "This should be linked to debit note of Workcell."
                       },
@@ -309,7 +309,7 @@
         "description": "This endpoint would provide hourly* update of Workcell Distributor Purchase Returns to SAP.\n\n* params can change"
       },
       "post": {
-        "summary": "",
+        "summary": "Acknowledge Purchase Returns updated",
         "operationId": "post-workcell-purchase-returns",
         "responses": {
           "200": {
@@ -364,6 +364,162 @@
         ],
         "tags": [
           "Purchase Returns"
+        ]
+      }
+    },
+    "/workcell/sales-invoices": {
+      "get": {
+        "summary": "Get Sales Invoices",
+        "tags": [
+          "Sales Invoice"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "next_url": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sales_invoice_number": {
+                        "type": "string",
+                        "description": "This should be linked to debit note of Workcell."
+                      },
+                      "posting_date": {
+                        "type": "string",
+                        "description": "This should be settled on date for debit note."
+                      },
+                      "payment_due_date": {
+                        "type": "string"
+                      },
+                      "payment_credit_period": {
+                        "type": "string"
+                      },
+                      "revenue_ledger": {
+                        "type": "string",
+                        "x-deprecated": true
+                      },
+                      "store_id": {
+                        "type": "string"
+                      },
+                      "workcell_dc_id": {
+                        "type": "string"
+                      },
+                      "shipping_to_state": {
+                        "type": "string"
+                      },
+                      "final_discount_amount": {
+                        "type": "string"
+                      },
+                      "drug_details": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "drug_id": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "unit_price": {
+                              "type": "integer"
+                            },
+                            "tax_rate": {
+                              "type": "integer"
+                            },
+                            "hsn_code": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-workcell-sales-invoices",
+        "description": "This endpoint will reflect all sales done by Workcell.\n\n*For all practical purposes, all sale done by Workcell is purchased by Zippin Retail stores as it is the only customer\n\nQuestions -\n1. Customer code and Customer name should be taken from store_id"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-workcell-sales-invoices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "is_successful": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "This endpoint would update Sales Invoices for Workcell acknowledged by SAP",
+        "tags": [
+          "Sales Invoice"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sales_invoices_ack": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "This would contain invoice numbers of acknowledged purchase returns"
+          }
         ]
       }
     }
