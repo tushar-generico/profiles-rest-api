@@ -28,7 +28,24 @@
             "schema": {
               "type": "object",
               "properties": {
-                "purchase_invoices": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "next_url": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -60,7 +77,7 @@
                       "workcell_dc_id": {
                         "type": "string"
                       },
-                      "shipping_state": {
+                      "shipping_from_state": {
                         "type": "string"
                       },
                       "final_discount_amount": {
@@ -110,19 +127,42 @@
         "parameters": [],
         "tags": [
           "Purchase Invoice"
-        ],
-        "security": [
-          {
-            "API Key - 1": []
-          },
-          {
-            "API Key - 1": []
-          }
         ]
       },
       "post": {
         "summary": "Workcell - Acknowledge Purchase Invoices updated",
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "is_successfu": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "operationId": "post-workcell-purchase-invoices",
         "description": "This endpoint would update Purchase Invoices for Workcell acknowledged by SAP",
         "parameters": [
@@ -141,13 +181,6 @@
               }
             },
             "description": "This would contain invoice numbers of acknowledged purchase invocies"
-          },
-          {
-            "type": "string",
-            "in": "header",
-            "name": "Auth ",
-            "description": "",
-            "required": true
           }
         ],
         "tags": [
@@ -158,14 +191,16 @@
     "/workcell/purchase-returns": {
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "Purchase Returns"
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
-                "purchase_returns": {
+                "data": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -182,7 +217,8 @@
                         "description": "Should this be provided or would be linked via SAP?"
                       },
                       "posting_date": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "This should be settled on date for debit note."
                       },
                       "payment_due_date": {
                         "type": "string"
@@ -191,7 +227,8 @@
                         "type": "string"
                       },
                       "stock_ledger": {
-                        "type": "string"
+                        "type": "string",
+                        "x-deprecated": true
                       },
                       "store_id": {
                         "type": "string"
@@ -199,7 +236,7 @@
                       "workcell_dc_id": {
                         "type": "string"
                       },
-                      "shipping_state": {
+                      "shipping_to_state": {
                         "type": "string"
                       },
                       "final_discount_amount": {
@@ -236,7 +273,69 @@
                             }
                           }
                         }
+                      },
+                      "original_invoice_number": {
+                        "type": "string"
+                      },
+                      "original_invoice_date": {
+                        "type": "string"
                       }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "next_url": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {}
+          }
+        },
+        "operationId": "get-workcell-purchase-returns",
+        "description": "This endpoint would provide hourly* update of Workcell Distributor Purchase Returns to SAP.\n\n* params can change"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-workcell-purchase-returns",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "is_successful": {
+                      "type": "boolean"
                     }
                   }
                 }
@@ -244,8 +343,28 @@
             }
           }
         },
-        "operationId": "get-workcell-purchase-returns",
-        "description": "This endpoint would provide hourly* update of Workcell Distributor Purchase Returns to SAP.\n\n* params can change"
+        "description": "This endpoint would update Purchase Returns for Workcell acknowledged by SAP",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "purchase_returns_ack": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "This would contain invoice numbers of acknowledged purchase returns"
+          }
+        ],
+        "tags": [
+          "Purchase Returns"
+        ]
       }
     }
   },
